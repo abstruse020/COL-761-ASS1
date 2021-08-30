@@ -1,7 +1,7 @@
 #!/usr/bin/env python
 # coding: utf-8
 
-# In[1]:
+# In[3]:
 
 
 #TODO-
@@ -12,7 +12,7 @@
 # DONE -
 
 
-# In[2]:
+# In[4]:
 
 
 from matplotlib import pyplot as plt
@@ -21,10 +21,10 @@ import subprocess
 import time
 
 
-# In[3]:
+# In[19]:
 
 
-def compute_time(support_list, dataset):
+def compute_time(support_list, input_file):
     apriori_times = []
     fp_tree_times = []
     for support in support_list:
@@ -32,25 +32,25 @@ def compute_time(support_list, dataset):
         t1= datetime.datetime.now()
         output = None
         try:
-            output = subprocess.run(['python3', 'fpTreeTime.py'], capture_output=True, text = True, timeout = 60)
+            output = subprocess.run(['fpgrowth/fpgrowth/src/fpgrowth', '-s'+ str(support), input_file, 'fp_tree_output'], capture_output=True, text = True, timeout = 60)
         except subprocess.TimeoutExpired:
             print("Timeout executing FP Tree Algo for Support = ", support)
         t2 = datetime.datetime.now()
         #print(output.stdout)
-        #print(t2-t1)
+        print(t2-t1)
         try:
             output = subprocess.run(['python3', 'aprioriTime.py'], capture_output=True, text = True, timeout = 60)
         except subprocess.TimeoutExpired:
             print("Timeout executing Apriori Algo for Support = ", support)
         t3 = datetime.datetime.now()
         #print(output.stdout)
-        #print(t3-t2)
+        print(t3-t2)
         apriori_times.append((t3-t2).total_seconds())
         fp_tree_times.append((t2-t1).total_seconds())
     return apriori_times, fp_tree_times
 
 
-# In[4]:
+# In[20]:
 
 
 def plot_runtime(support_list, apriori_times, fp_tree_times):
@@ -62,12 +62,12 @@ def plot_runtime(support_list, apriori_times, fp_tree_times):
     plt.show()
 
 
-# In[5]:
+# In[21]:
 
 
 support_list = [90, 50, 25, 10, 5]
-apriori_times, fp_tree_times = compute_time(support_list, 'dataset')
-plot_runtime(support_list, apriori_times, fp_tree_times)
+apriori_times, fp_tree_times = compute_time([90, 80, 70], 'webdocs.dat')
+plot_runtime([90,80,70], apriori_times, fp_tree_times)
 
 
 # In[ ]:
