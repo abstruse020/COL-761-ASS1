@@ -1,4 +1,4 @@
-#!/usr/bin/env python
+#!/usr/bin/env python3
 # coding: utf-8
 
 # In[3]:
@@ -7,7 +7,6 @@
 #TODO-
 
 # shift it to hpc
-# run the fp tree algo and check whether it works or not
 
 # DONE -
 
@@ -59,7 +58,7 @@ def plot_runtime(support_list, apriori_times, fp_tree_times):
     plt.xlabel('Support %')
     plt.ylabel('Run Time (sec)')
     plt.legend()
-    plt.show()
+    plt.savefig('Running_time_plot.png')
 
 
 # In[21]:
@@ -68,7 +67,8 @@ def plot_runtime(support_list, apriori_times, fp_tree_times):
 support_list = [90, 50, 25, 10, 5]
 apriori_times, fp_tree_times = compute_time([90, 80, 70], 'webdocs.dat')
 plot_runtime([90,80,70], apriori_times, fp_tree_times)
-
+print(apriori_times)
+print(fp_tree_times)
 
 # In[ ]:
 
